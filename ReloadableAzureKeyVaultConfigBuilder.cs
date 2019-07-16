@@ -37,14 +37,14 @@ namespace Microsoft.Configuration.ConfigurationBuilders
             var config = configurationBuildersSection.Builders[name].Parameters;
             var builder = configurationBuildersSection.GetBuilderFromName(name);
 
-            if (!(builder is ReloadableAzureKeyVaultConfigBuilder typeBuilder))
+            if (!(builder is ReloadableAzureKeyVaultConfigBuilder typedBuilder))
             {
-                throw new ArgumentException($"Builder {name} type is no valid.", nameof(name));
+                throw new ArgumentException($"Builder {name} is not valid.", nameof(name));
             }
 
             config.Remove(preloadTag);
             config.Add(preloadTag, "true");
-            typeBuilder.LazyInitialize(name, config);
+            typedBuilder.LazyInitialize(name, config);
         }
     }
 }
