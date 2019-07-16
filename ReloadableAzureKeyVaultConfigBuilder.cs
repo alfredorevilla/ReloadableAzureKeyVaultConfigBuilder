@@ -27,24 +27,24 @@ namespace Microsoft.Configuration.ConfigurationBuilders
             }
         }
 
-        public static void ReloadConfiguration(string name)
+        public static void ReloadConfiguration(string builderName)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(builderName))
             {
-                throw new ArgumentException(nameof(name));
+                throw new ArgumentException(nameof(builderName));
             }
 
-            var config = configurationBuildersSection.Builders[name].Parameters;
-            var builder = configurationBuildersSection.GetBuilderFromName(name);
+            var config = configurationBuildersSection.Builders[builderName].Parameters;
+            var builder = configurationBuildersSection.GetBuilderFromName(builderName);
 
             if (!(builder is ReloadableAzureKeyVaultConfigBuilder typedBuilder))
             {
-                throw new ArgumentException($"Builder {name} is not valid.", nameof(name));
+                throw new ArgumentException($"Builder {builderName} is not valid.", nameof(builderName));
             }
 
             config.Remove(preloadTag);
             config.Add(preloadTag, "true");
-            typedBuilder.LazyInitialize(name, config);
+            typedBuilder.LazyInitialize(builderName, config);
         }
     }
 }
